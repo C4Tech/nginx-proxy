@@ -1,4 +1,4 @@
-FROM nginx:1.13
+FROM nginx:1.19.7
 #All the heavy lifting was done by Jason Wilder mail@jasonwilder.com
 # I only modified a few lines
 MAINTAINER Jeffrey Brite jeff@c4tech.com
@@ -25,8 +25,8 @@ RUN NGINX_GPGKEY=573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62; \
 #  apt-get remove --purge --auto-remove -y gnupg1 && rm -rf /var/lib/apt/lists/*
 RUN  apt-get remove --purge --auto-remove -y gnupg1 && rm -rf /var/lib/apt/lists/*
 
-RUN echo "deb https://nginx.org/packages/mainline/debian/ stretch nginx" >> /etc/apt/sources.list.d/nginx.list \
- && echo "deb-src https://nginx.org/packages/mainline/debian/ stretch nginx" >> /etc/apt/sources.list.d/nginx.list
+RUN echo "deb https://nginx.org/packages/mainline/debian/ buster nginx" >> /etc/apt/sources.list.d/nginx.list \
+ && echo "deb-src https://nginx.org/packages/mainline/debian/ buster nginx" >> /etc/apt/sources.list.d/nginx.list
 
 
 # Install wget and install/updates certificates
@@ -35,12 +35,12 @@ RUN echo "deb https://nginx.org/packages/mainline/debian/ stretch nginx" >> /etc
 RUN git clone https://github.com/kvspb/nginx-auth-ldap.git
 
 RUN apt update \
- && apt-get source nginx=1.13.9-1~stretch
+ && apt-get source nginx=1.19.7-1~stretch
 RUN apt-get build-dep -y -q nginx
-RUN sed -i 's/with-file-aio/& \\\n              \-\-add-module=\/nginx-auth-ldap\//g' ./nginx-1.13.9/debian/rules
+RUN sed -i 's/with-file-aio/& \\\n              \-\-add-module=\/nginx-auth-ldap\//g' ./nginx-1.19.7/debian/rules
 
-RUN cd ./nginx-1.13.9/ &&  dpkg-buildpackage -b
-RUN dpkg -i ./nginx_1.13.9-1~stretch_amd64.deb
+RUN cd ./nginx-1.19.7/ &&  dpkg-buildpackage -b
+RUN dpkg -i ./nginx_1.19.7-1~stretch_amd64.deb
 
 # Configure Nginx and apply fix for very long server names
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf \
@@ -51,15 +51,15 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf \
 ADD https://github.com/jwilder/forego/releases/download/v0.16.1/forego /usr/local/bin/forego
 RUN chmod u+x /usr/local/bin/forego
 
-#ENV DOCKER_GEN_VERSION 0.7.3
+#ENV DOCKER_GEN_VERSION 0.7.4
 
-#RUN wget https://github.com/jwilder/docker-gen/releases/download/0.7.3/docker-gen-linux-amd64-0.7.3.tar.gz \
-# && tar -C /usr/local/bin -xvzf docker-gen-linux-amd64-0.7.3.tar.gz \
-# && rm /docker-gen-linux-amd64-0.7.3.tar.gz
+#RUN wget https://github.com/jwilder/docker-gen/releases/download/0.7.3/docker-gen-linux-amd64-0.7.4.tar.gz \
+# && tar -C /usr/local/bin -xvzf docker-gen-linux-amd64-0.7.4.tar.gz \
+# && rm /docker-gen-linux-amd64-0.7.4.tar.gz
 
-RUN wget https://github.com/jwilder/docker-gen/releases/download/0.7.3/docker-gen-linux-amd64-0.7.3.tar.gz
-RUN tar -C /usr/local/bin -xvzf docker-gen-linux-amd64-0.7.3.tar.gz
-RUN rm /docker-gen-linux-amd64-0.7.3.tar.gz
+RUN wget https://github.com/jwilder/docker-gen/releases/download/0.7.3/docker-gen-linux-amd64-0.7.4.tar.gz
+RUN tar -C /usr/local/bin -xvzf docker-gen-linux-amd64-0.7.4.tar.gz
+RUN rm /docker-gen-linux-amd64-0.7.4.tar.gz
 
 
 #COPY network_internal.conf /etc/nginx/
