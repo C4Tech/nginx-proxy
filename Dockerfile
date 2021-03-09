@@ -35,12 +35,12 @@ RUN echo "deb https://nginx.org/packages/mainline/debian/ buster nginx" >> /etc/
 RUN git clone https://github.com/kvspb/nginx-auth-ldap.git
 
 RUN apt update \
- && apt-get source nginx=1.19.7-1~stretch
+ && apt-get source nginx=1.19.7-1~buster
 RUN apt-get build-dep -y -q nginx
 RUN sed -i 's/with-file-aio/& \\\n              \-\-add-module=\/nginx-auth-ldap\//g' ./nginx-1.19.7/debian/rules
 
 RUN cd ./nginx-1.19.7/ &&  dpkg-buildpackage -b
-RUN dpkg -i ./nginx_1.19.7-1~stretch_amd64.deb
+RUN dpkg -i ./nginx_1.19.7-1~buster_amd64.deb
 
 # Configure Nginx and apply fix for very long server names
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf \
