@@ -53,11 +53,11 @@ RUN chmod u+x /usr/local/bin/forego
 
 #ENV DOCKER_GEN_VERSION 0.7.4
 
-#RUN wget https://github.com/jwilder/docker-gen/releases/download/0.7.3/docker-gen-linux-amd64-0.7.4.tar.gz \
+#RUN wget https://github.com/jwilder/docker-gen/releases/download/0.7.4/docker-gen-linux-amd64-0.7.4.tar.gz \
 # && tar -C /usr/local/bin -xvzf docker-gen-linux-amd64-0.7.4.tar.gz \
 # && rm /docker-gen-linux-amd64-0.7.4.tar.gz
 
-RUN wget https://github.com/jwilder/docker-gen/releases/download/0.7.3/docker-gen-linux-amd64-0.7.4.tar.gz
+RUN wget https://github.com/jwilder/docker-gen/releases/download/0.7.4/docker-gen-linux-amd64-0.7.4.tar.gz
 RUN tar -C /usr/local/bin -xvzf docker-gen-linux-amd64-0.7.4.tar.gz
 RUN rm /docker-gen-linux-amd64-0.7.4.tar.gz
 
